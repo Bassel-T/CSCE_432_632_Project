@@ -1,0 +1,6 @@
+@CSCE_432_632_Project_HostAddress = http://localhost:5128
+
+GET {{CSCE_432_632_Project_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
