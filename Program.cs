@@ -23,6 +23,8 @@ namespace CSCE_432_632_Project
 
             var app = builder.Build();
 
+            RunMigrations(app);
+
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -38,6 +40,15 @@ namespace CSCE_432_632_Project
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static void RunMigrations(IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<RemindMeDbContext>();
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

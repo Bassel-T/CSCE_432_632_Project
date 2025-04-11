@@ -12,7 +12,6 @@ This application runs the MAUI frontend with an ASP.NET Core backend. Thus, the 
 - Visual Studio 2022
 - .NET 8.0
 - SQL Server
-- Rancher Desktop
 - Android Studio (for Android deployment)
 
 ## Development
