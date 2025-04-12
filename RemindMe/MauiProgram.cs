@@ -11,8 +11,8 @@ namespace RemindMe
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("AtkinsonHyperlegible-Regular.ttf", "AtkinsonHyperlegibleRegular");
+                    fonts.AddFont("AtkinsonHyperlegible-Bold.ttf", "AtkinsonHyperlegibleBold");
                 });
 
 #if DEBUG
