@@ -32,16 +32,14 @@ namespace RemindMe
             }
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void OnCreateRoomClicked(object sender, EventArgs e)
         {
-            count++;
+            SemanticScreenReader.Announce(CreateRoom.Text);
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private void OnJoinRoomClicked(object sender, EventArgs e)
+        {
+            SemanticScreenReader.Announce(JoinRoom.Text);
         }
     }
 
