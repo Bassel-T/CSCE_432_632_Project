@@ -32,9 +32,12 @@ namespace RemindMe
             }
         }
 
-        private void OnCreateRoomClicked(object sender, EventArgs e)
+        private async void OnCreateRoomClicked(object sender, EventArgs e)
         {
             SemanticScreenReader.Announce(CreateRoom.Text);
+
+            // Go the Create Room Page
+            await Shell.Current.GoToAsync($"//{nameof(CreateRoomPage)}?UserID={UserID}");
         }
 
         private void OnJoinRoomClicked(object sender, EventArgs e)

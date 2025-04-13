@@ -3,20 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RemindMe.MainPage">
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="100" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="100" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="300" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-            <Button
+        <Button
                 x:Name="CreateRoom"
                 Text="I am a Caregiver" 
                 SemanticProperties.Hint="Generates a modal for users who will send videos to create a room"
@@ -26,7 +26,7 @@
                 Grid.RowSpan="1"
                 Grid.Column="1"
                 FontSize="Large"/>
-            <Button
+        <Button
                 x:Name="JoinRoom"
                 Text="I Need Reminders" 
                 SemanticProperties.Hint="Generates a modal for users who need help with reminders to join a room"
@@ -36,6 +36,6 @@
                 Grid.RowSpan="1"
                 Grid.Column="1"
                 FontSize="Large"/>
-        </Grid>
-
+    </Grid>
+    
 </ContentPage>
