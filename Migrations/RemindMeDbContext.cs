@@ -9,6 +9,7 @@ namespace CSCE_432_632_Project.Migrations
         public DbSet<User> Users { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<UserRoom> UserRooms { get; set; }
+        public DbSet<Video> Videos { get; set; }
 
         public RemindMeDbContext(DbContextOptions<RemindMeDbContext> options, ILoggerFactory loggerFactory) : base(options)
         {
@@ -24,6 +25,9 @@ namespace CSCE_432_632_Project.Migrations
             modelBuilder.Entity<UserRoom>().HasOne(ur => ur.User);
             modelBuilder.Entity<UserRoom>().HasOne(ur => ur.Room);
             modelBuilder.Entity<UserRoom>().Property(x => x.Role).HasConversion<string>();
+
+            // Configure the Video table
+            modelBuilder.Entity<Video>().HasOne(v => v.Room);
         }
     }
 }
