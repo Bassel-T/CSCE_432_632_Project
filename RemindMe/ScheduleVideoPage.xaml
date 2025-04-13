@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RemindMe.ScheduleVideoPage">
+    <VerticalStackLayout>
+        <HorizontalStackLayout
+            Padding="0,20,0,0"
+            HorizontalOptions="CenterAndExpand"
+            Spacing="250">
+            
+            <Button
+                x:Name="TipsButton"
+                Text="?"
+                SemanticProperties.Description="Tips for recording videos"
+                WidthRequest="50"
+                HeightRequest="50"
+                HorizontalOptions="FillAndExpand"
+                CornerRadius="25"
+                FontSize="Large"
+                />
+            <ImageButton
+                x:Name="SwapUsersButton"
+                Source="swap.svg"
+                WidthRequest="50"
+                HeightRequest="50"
+                BackgroundColor="{StaticResource Primary}"
+                Margin="20, 0, 0, 0"
+                CornerRadius="25"
+                HorizontalOptions="FillAndExpand"
+                Aspect="Center"/>
+        </HorizontalStackLayout>
+
+        <Label
+            Text="Schedule Date"
+            FontSize="Large"
+            SemanticProperties.HeadingLevel="Level2"
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            Padding="40, 50, 40, 0"/>
+        <Border
+            Stroke="Gray"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 8"
+            Padding="20"
+            BackgroundColor="White"
+            Margin="40, 0, 40, 0">
+            <DatePicker
+                x:Name="DatePicker"
+                SemanticProperties.Description="The date the video should be delivered"
+                FontSize="Large"
+            />
+        </Border>
+
+        <Label
+            Text="Schedule Time"
+            FontSize="Large"
+            SemanticProperties.HeadingLevel="Level2"
+            VerticalOptions="Start"
+            HorizontalOptions="Start"
+            Padding="40, 50, 40, 0"/>
+        <Border
+            Stroke="Gray"
+            StrokeThickness="1"
+            StrokeShape="RoundRectangle 8"
+            Padding="20"
+            BackgroundColor="White"
+            Margin="40, 0, 40, 0">
+            <TimePicker
+                x:Name="TimePicker"
+                SemanticProperties.Description="The time the video should be delivered"
+                FontSize="Large"    
+            />
+        </Border>
+
+        <Button
+            x:Name="ScheduleOrRecord"
+            Text="Schedule/Record Video"
+            SemanticProperties.Description="Record or schedule the video to send"
+            HorizontalOptions="FillAndExpand"
+            CornerRadius="25"
+            FontSize="Large"
+            Margin="40, 50, 40, 0"
+            />
+
+        <Button
+            x:Name="PublishVideo"
+            Text="Submit Scheduled Video"
+            SemanticProperties.Description="Upload the video to be delivered at the set date and time"
+            HorizontalOptions="FillAndExpand"
+            CornerRadius="25"
+            FontSize="Large"
+            Margin="40, 80, 40, 0"
+        />
+    </VerticalStackLayout>
+</ContentPage>

@@ -16,4 +16,9 @@
         Route="CreateRoomPage"
         />
 
+    <ShellContent
+        ContentTemplate="{DataTemplate local:ScheduleVideoPage}"
+        Route="ScheduleVideoPage"
+        />
+
 </Shell>

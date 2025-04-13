@@ -1,11 +1,8 @@
-﻿using Android.Content;
-using Java.Util;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using RemindMe.Models.ResponseModels;
 using RemindMe.Services;
 using System.Text;
 using System.Text.Json;
-using static Android.Provider.Settings;
 
 namespace RemindMe.Services
 {

@@ -5,7 +5,6 @@ namespace RemindMe
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
         Guid? UserID { get; set; }
 
         public MainPage()
