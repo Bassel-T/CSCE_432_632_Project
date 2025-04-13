@@ -20,12 +20,22 @@ namespace CSCE_432_632_Project.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateUser()
+        public async Task<IActionResult> CreateUser([FromQuery] string deviceId)
         {
-            var user = new User();
+            var existing = _context.Users.FirstOrDefault(x => x.Mac == deviceId);
+
+            if (existing != null)
+            {
+                return Ok(existing.Id);
+            }
+
+            var user = new User()
+            {
+                Mac = deviceId
+            };
 
             // Add item to database
-            var added = _context.Users.Add(user);
+            var added = await _context.Users.AddAsync(user);
 
             // Save the changes
             var result = await _context.SaveChangesAsync();

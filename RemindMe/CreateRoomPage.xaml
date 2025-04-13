@@ -55,7 +55,8 @@
                 FontSize="16"
                 TextColor="Black"
                 WidthRequest="250"
-                HorizontalOptions="StartAndExpand"/>
+                HorizontalOptions="StartAndExpand"
+                IsPassword="true"/>
 
                 <ImageButton
                     x:Name="TogglePasswordButton"
