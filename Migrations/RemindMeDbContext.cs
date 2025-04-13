@@ -7,6 +7,7 @@ namespace CSCE_432_632_Project.Migrations
     {
         // Tables here
         public DbSet<User> Users { get; set; }
+        public DbSet<Room> Rooms { get; set; }
 
         public RemindMeDbContext(DbContextOptions<RemindMeDbContext> options, ILoggerFactory loggerFactory) : base(options)
         {
