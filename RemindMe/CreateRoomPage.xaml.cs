@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using RemindMe.Services;
+
 namespace RemindMe;
 
 public partial class CreateRoomPage : ContentPage
@@ -21,8 +24,9 @@ public partial class CreateRoomPage : ContentPage
         await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
     }
 
-    private void CreateButtonClicked(object sender, EventArgs e)
+    private async void CreateButtonClicked(object sender, EventArgs e)
     {
-
+        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+        await client.CreateRoom(Id, RoomNameEntry.Text, PasswordEntry.Text).ConfigureAwait(false);
     }
 }
