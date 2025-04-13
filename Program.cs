@@ -21,6 +21,18 @@ namespace CSCE_432_632_Project
                 options.UseSqlServer(builder.Configuration.GetConnectionString("RemindMeDbContext"));
             });
 
+            builder.Services.AddSingleton<ILoggerFactory, LoggerFactory>();
+            builder.Services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+
+            // Apply CORS middleware
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+
             var app = builder.Build();
 
             RunMigrations(app);
@@ -33,6 +45,7 @@ namespace CSCE_432_632_Project
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
 
             app.UseAuthorization();
 
