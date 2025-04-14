@@ -42,7 +42,6 @@
             StrokeThickness="1"
             StrokeShape="RoundRectangle 8"
             Padding="20"
-            BackgroundColor="White"
             Margin="40, 0, 40, 0">
             <DatePicker
                 x:Name="DatePicker"
@@ -63,7 +62,6 @@
             StrokeThickness="1"
             StrokeShape="RoundRectangle 8"
             Padding="20"
-            BackgroundColor="White"
             Margin="40, 0, 40, 0">
             <TimePicker
                 x:Name="TimePicker"
@@ -80,6 +78,7 @@
             CornerRadius="25"
             FontSize="Large"
             Margin="40, 50, 40, 0"
+            Clicked="ScheduleOrRecordVideo"
             />
 
         <Button
