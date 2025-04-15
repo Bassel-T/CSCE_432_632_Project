@@ -31,7 +31,7 @@ public partial class JoinRoomPage : ContentPage
 
         if (response.Success)
         {
-            await DisplayAlert("Success!", "You joined the room. View Video page not implemented.", "OK");
+            await Shell.Current.GoToAsync($"//{nameof(AssistedRoom)}");
         }
         else
         {
