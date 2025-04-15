@@ -89,6 +89,8 @@
             CornerRadius="25"
             FontSize="Large"
             Margin="40, 80, 40, 0"
+            IsEnabled="False"
+            Clicked="PublishSelectedVideo"
         />
     </VerticalStackLayout>
 </ContentPage>
