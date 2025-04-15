@@ -15,6 +15,11 @@
         ContentTemplate="{DataTemplate local:CreateRoomPage}"
         Route="CreateRoomPage"
         />
+    
+    <ShellContent
+        ContentTemplate="{DataTemplate local:JoinRoomPage}"
+        Route="JoinRoomPage"
+        />
 
     <ShellContent
         ContentTemplate="{DataTemplate local:ScheduleVideoPage}"

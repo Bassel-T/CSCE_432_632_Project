@@ -30,7 +30,7 @@
                 x:Name="JoinRoom"
                 Text="I Need Reminders" 
                 SemanticProperties.Hint="Generates a modal for users who need help with reminders to join a room"
-                Clicked="OnCreateRoomClicked"
+                Clicked="OnJoinRoomClicked"
                 HorizontalOptions="Fill"
                 Grid.Row="3"
                 Grid.RowSpan="1"
