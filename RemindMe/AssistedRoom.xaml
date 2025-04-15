@@ -22,6 +22,7 @@
             FontSize="Large"
             SemanticProperties.Hint="Watch the latest video you've received"
             Margin="0, 250, 0, 0"
+            Clicked="WatchLatestVideo"
             />
     </VerticalStackLayout>
 </ContentPage>
