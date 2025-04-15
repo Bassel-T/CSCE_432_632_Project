@@ -1,7 +1,12 @@
+using Microsoft.Extensions.Logging;
+using RemindMe.Services;
+
 namespace RemindMe;
 
 public partial class ScheduleVideoPage : ContentPage
 {
+    public FileResult? submittingVideo;
+
 	public ScheduleVideoPage()
 	{
 		InitializeComponent();
@@ -10,6 +15,32 @@ public partial class ScheduleVideoPage : ContentPage
     private async void ScheduleOrRecordVideo(object sender, EventArgs e)
     {
         await GenerateVideo();
+    }
+
+    private async void PublishSelectedVideo(object sender, EventArgs e)
+    {
+        if (submittingVideo == null)
+        {
+            await DisplayAlert("Select a video", "You have not selected or recorded a video to be uploaded.", "OK");
+            return;
+        }
+
+        var result = await DisplayAlert("Publish Video", "Are you sure you want to schedule this video?", "Yes", "No");
+        if (result)
+        {
+            var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+            var response = await client.PublishVideo(submittingVideo, DatePicker.Date, TimePicker.Time);
+
+            if (response.Success)
+            {
+                await DisplayAlert("Success", "Your video has been successfully scheduled.", "OK");
+            }
+            else
+            {
+                await DisplayAlert("Error", response.Message, "OK");
+            
+            }
+        }
     }
 
     private async Task GenerateVideo() { 
@@ -40,13 +71,7 @@ public partial class ScheduleVideoPage : ContentPage
 
                 if (video != null)
                 {
-                    var newFile = Path.Combine(FileSystem.CacheDirectory, video.FileName);
-
-                    using Stream inputStream = await video.OpenReadAsync();
-                    using FileStream outputStream = File.OpenWrite(newFile);
-                    await inputStream.CopyToAsync(outputStream);
-
-                    await DisplayAlert("Video Recorded", $"Saved to: {newFile}", "OK");
+                    await SetOrRplaceVideo(video);
                 }
             }
             else
@@ -70,7 +95,30 @@ public partial class ScheduleVideoPage : ContentPage
 
         if (result != null)
         {
-            await DisplayAlert("Video Selected", result.FileName, "OK");
+            await SetOrRplaceVideo(result);
+        }
+    }
+
+    private async Task SetOrRplaceVideo(FileResult video)
+    {
+        if (video != null)
+        {
+            if (submittingVideo != null)
+            {
+                var replace = await DisplayAlert("Overwrite", "You already selected a video. Do you want to replace it?", "Yes", "No");
+
+                if (replace)
+                {
+                    submittingVideo = video;
+                    PublishVideo.IsEnabled = true;
+                    
+                }
+            }
+            else
+            {
+                submittingVideo = video;
+                PublishVideo.IsEnabled = true;
+            }
         }
     }
 }
