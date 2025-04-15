@@ -39,9 +39,11 @@ namespace RemindMe
             await Shell.Current.GoToAsync($"//{nameof(CreateRoomPage)}?UserID={UserID}");
         }
 
-        private void OnJoinRoomClicked(object sender, EventArgs e)
+        private async void OnJoinRoomClicked(object sender, EventArgs e)
         {
             SemanticScreenReader.Announce(JoinRoom.Text);
+
+            await Shell.Current.GoToAsync($"//{nameof(JoinRoomPage)}");
         }
     }
 

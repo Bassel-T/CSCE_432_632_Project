@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RemindMe.JoinRoomPage">
+    <VerticalStackLayout Margin="30">
+        <Label 
+        Text="Join a Room"
+        FontSize="Title"
+        SemanticProperties.HeadingLevel="Level1"
+        VerticalOptions="Center" 
+        HorizontalOptions="Center"
+        Margin="0, 0, 0, 100"/>
+        <Label
+        Text="Room Name"
+        FontSize="Large"
+        SemanticProperties.HeadingLevel="Level2"
+        VerticalOptions="Start"
+        HorizontalOptions="Start"/>
+        <Border
+        Stroke="Gray"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 8"
+        Padding="10"
+        BackgroundColor="White"
+        Margin="0, 0, 0, 100">
+
+            <Entry 
+            x:Name="RoomNameEntry"
+        Placeholder="Enter text"
+        BackgroundColor="Transparent"
+        FontSize="16"
+        TextColor="Black"/>
+        </Border>
+
+        <Label
+    Text="Password"
+    FontSize="Large"
+    SemanticProperties.HeadingLevel="Level2"
+    VerticalOptions="Start"
+    HorizontalOptions="Start"/>
+        <Border
+        Stroke="Gray"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 8"
+        Padding="10"
+        BackgroundColor="White"
+        Margin="0, 0, 0, 150">
+
+            <HorizontalStackLayout>
+                <Entry 
+            x:Name="PasswordEntry"
+            Placeholder="Enter text"
+            BackgroundColor="Transparent"
+            FontSize="16"
+            TextColor="Black"
+            WidthRequest="250"
+            HorizontalOptions="StartAndExpand"
+            IsPassword="true"/>
+
+                <ImageButton
+                x:Name="TogglePasswordButton"
+                Source="visibility.svg"
+                WidthRequest="40"
+                HeightRequest="40"
+                BackgroundColor="{StaticResource Primary}"
+                Margin="20, 0, 0, 0"
+                CornerRadius="20"
+                Aspect="Center"
+                Clicked="OnTogglePasswordClicked"/>
+            </HorizontalStackLayout>
+        </Border>
+
+        <HorizontalStackLayout
+        HorizontalOptions="Center"
+        Spacing="150"
+        Padding="0,0"
+        HeightRequest="75">
+            <Button
+            Text="Cancel"
+            HorizontalOptions="FillAndExpand"
+            FontSize="Medium"
+            SemanticProperties.Description="Return to the previous page"
+            Clicked="CancelButtonClicked"
+            />
+            <Button
+            Text="Join"
+            HorizontalOptions="FillAndExpand"
+            FontSize="Medium"
+            SemanticProperties.Description="Join the room and go to the viewing page"
+            Clicked="JoinButtonClicked"
+            />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
