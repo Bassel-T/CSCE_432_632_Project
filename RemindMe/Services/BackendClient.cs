@@ -100,6 +100,41 @@ namespace RemindMe.Services
             }
         }
 
+        public async Task<BackendClientResponseResult<Guid>> JoinRoom(Guid userId, string roomName, string password)
+        {
+            try
+            {
+                _logger.LogInformation($"Creating room {roomName}");
+
+                var deviceId = GetDeviceId();
+
+                var request = new HttpRequestMessage(HttpMethod.Post, $"{SystemConstants.BACKEND_URL}/room/joinRoom?deviceId={deviceId}");
+                request.Content = new StringContent(JsonSerializer.Serialize(new
+                {
+                    RoomName = roomName,
+                    Password = password
+                }), Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+
+                return new BackendClientResponseResult<Guid>()
+                {
+                    Success = response.IsSuccessStatusCode,
+                    Data = Guid.Parse(response.Content.ReadAsStringAsync().Result.Replace("\"", ""))
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Unhandled exception while creating a room: {e.Message}");
+                return new BackendClientResponseResult<Guid>()
+                {
+                    Success = false,
+                    Message = e.Message,
+                    Data = Guid.Empty
+                };
+            }
+        }
+
         public async Task<BackendClientResponseResult<string>> PublishVideo(FileResult file, DateTime date, TimeSpan time)
         {
             try

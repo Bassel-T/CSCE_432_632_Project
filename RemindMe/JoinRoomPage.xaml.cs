@@ -1,3 +1,6 @@
+using Microsoft.Extensions.Logging;
+using RemindMe.Services;
+
 namespace RemindMe;
 
 public partial class JoinRoomPage : ContentPage
@@ -23,6 +26,17 @@ public partial class JoinRoomPage : ContentPage
 
     private async void JoinButtonClicked(object sender, EventArgs e)
     {
-        await DisplayAlert("TODO", "Feature not yet implemented", "OK");
+        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+        var response = await client.JoinRoom(Id, RoomNameEntry.Text, PasswordEntry.Text).ConfigureAwait(false);
+
+        if (response.Success)
+        {
+            await DisplayAlert("Success!", "You joined the room. View Video page not implemented.", "OK");
+        }
+        else
+        {
+            // THIS IS CRASHING THE SYSTEM
+            // await DisplayAlert("Error", response.Message, "OK");
+        }
     }
 }
