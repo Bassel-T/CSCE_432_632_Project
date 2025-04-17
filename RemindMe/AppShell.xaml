@@ -31,4 +31,9 @@
         Route="AssistedRoom"
         />
 
+    <ShellContent
+        ContentTemplate="{DataTemplate local:TipsPage}"
+        Route="TipsPage"
+        />
+
 </Shell>

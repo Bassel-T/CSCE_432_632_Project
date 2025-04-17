@@ -7,14 +7,19 @@ public partial class ScheduleVideoPage : ContentPage
 {
     public FileResult? submittingVideo;
 
-	public ScheduleVideoPage()
-	{
-		InitializeComponent();
-	}
+    public ScheduleVideoPage()
+    {
+        InitializeComponent();
+    }
 
     private async void ScheduleOrRecordVideo(object sender, EventArgs e)
     {
         await GenerateVideo();
+    }
+
+    private async void ViewRecordingTips(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync($"//{nameof(TipsPage)}").ConfigureAwait(false);
     }
 
     private async void SwapRole(object sender, EventArgs e)
@@ -54,12 +59,13 @@ public partial class ScheduleVideoPage : ContentPage
             else
             {
                 await DisplayAlert("Error", response.Message, "OK");
-            
+
             }
         }
     }
 
-    private async Task GenerateVideo() { 
+    private async Task GenerateVideo()
+    {
         string action = await DisplayActionSheet("Add a Video", "Cancel", null, "Record Video", "Upload from Device");
 
         switch (action)
@@ -127,7 +133,7 @@ public partial class ScheduleVideoPage : ContentPage
                 {
                     submittingVideo = video;
                     PublishVideo.IsEnabled = true;
-                    
+
                 }
             }
             else

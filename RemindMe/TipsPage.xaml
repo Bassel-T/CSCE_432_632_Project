@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RemindMe.TipsPage">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="20">
+
+        <Label Text="Tips for Recording Videos" 
+               FontSize="24" 
+               HorizontalOptions="Center" 
+               Grid.Row="0"
+               Margin="0,0,0,10"/>
+
+        <!-- List of strings with separators -->
+        <CollectionView x:Name="StringListView"
+                        Grid.Row="1"
+                        ItemsSource="{Binding TipsList}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Label Text="{Binding}" FontSize="18" Padding="0,10"/>
+                        <BoxView HeightRequest="1" BackgroundColor="Gray" Margin="0,0,0,5"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Return button pinned to bottom -->
+        <Button Text="Return"
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                Margin="0,10,0,0"
+                Clicked="OnReturnClicked"/>
+    </Grid>
+</ContentPage>

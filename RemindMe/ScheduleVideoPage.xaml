@@ -17,6 +17,7 @@
                 HorizontalOptions="FillAndExpand"
                 CornerRadius="25"
                 FontSize="Large"
+                Clicked="ViewRecordingTips"
                 />
             <ImageButton
                 x:Name="SwapUsersButton"
