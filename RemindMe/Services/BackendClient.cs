@@ -135,6 +135,36 @@ namespace RemindMe.Services
             }
         }
 
+        public async Task<BackendClientResponseResult<string>> SwapRole()
+        {
+            try
+            {
+                var deviceId = GetDeviceId();
+
+                _logger.LogInformation($"Swapping role for user {deviceId}");
+
+                var request = new HttpRequestMessage(HttpMethod.Put, $"{SystemConstants.BACKEND_URL}/room/swapRole?deviceId={deviceId}");
+
+                var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+
+                return new BackendClientResponseResult<string>()
+                {
+                    Success = response.IsSuccessStatusCode,
+                    Data = response.Content.ReadAsStringAsync().Result.Replace("\"", "")
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Unhandled exception while swapping user role: {e.Message}");
+                return new BackendClientResponseResult<string>()
+                {
+                    Success = false,
+                    Message = e.Message,
+                    Data = ""
+                };
+            }
+        }
+
         public async Task<BackendClientResponseResult<string>> PublishVideo(FileResult file, DateTime date, TimeSpan time)
         {
             try

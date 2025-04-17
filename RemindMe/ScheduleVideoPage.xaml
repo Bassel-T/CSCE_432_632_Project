@@ -27,7 +27,8 @@
                 Margin="20, 0, 0, 0"
                 CornerRadius="25"
                 HorizontalOptions="FillAndExpand"
-                Aspect="Center"/>
+                Aspect="Center"
+                Clicked="SwapRole"/>
         </HorizontalStackLayout>
 
         <Label

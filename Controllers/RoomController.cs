@@ -120,5 +120,42 @@ namespace CSCE_432_632_Project.Controllers
 
             return Ok(room.Id);
         }
+
+        [HttpPut("swapRole")]
+        public async Task<IActionResult> SwapRole([FromQuery] string deviceId)
+        {
+            if (string.IsNullOrEmpty(deviceId))
+            {
+                return BadRequest("Invalid request");
+            }
+
+            var userRoom = await _context.UserRooms
+                .Include(x => x.User)
+                .Include(x => x.Room)
+                .FirstOrDefaultAsync(x => x.User.Mac == deviceId);
+
+            if (userRoom == null)
+            {
+                return NotFound("User not found in any room.");
+            }
+
+            if (userRoom.Role == Role.CAREGIVER)
+            {
+                userRoom.Role = Role.ASSISTED;
+            }
+            else if (userRoom.Role == Role.ASSISTED)
+            {
+                userRoom.Role = Role.CAREGIVER;
+            }
+
+            var result = await _context.SaveChangesAsync();
+
+            if (result == 0)
+            {
+                return BadRequest("Failed to swap user role");
+            }
+
+            return Ok("Successfully swapped user's role.");
+        }
     }
 }

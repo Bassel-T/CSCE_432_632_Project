@@ -27,4 +27,20 @@ public partial class AssistedRoom : ContentPage
             await DisplayAlert("Error", response.Message, "OK");
         }
     }
+
+    private async void SwapRole(object sender, EventArgs e)
+    {
+        if (await DisplayAlert("Swap Role", "Are you sure you want to swap roles? You will record videos instead of receiving them.", "Yes", "No").ConfigureAwait(false) == false)
+        {
+            return;
+        }
+
+        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+
+        var response = await client.SwapRole().ConfigureAwait(false);
+        if (response.Success)
+        {
+            await Shell.Current.GoToAsync($"//{nameof(ScheduleVideoPage)}").ConfigureAwait(false);
+        }
+    }
 }
