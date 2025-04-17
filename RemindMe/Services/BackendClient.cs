@@ -141,7 +141,7 @@ namespace RemindMe.Services
             {
                 _logger.LogInformation($"Uploading video: {file?.FileName}");
 
-                var deviceId = GetDeviceId(); // Assume you have this method already
+                var deviceId = GetDeviceId(); 
                 var uploadUrl = $"{SystemConstants.BACKEND_URL}/video/upload";
 
                 using var videoStream = await file.OpenReadAsync();
@@ -172,6 +172,62 @@ namespace RemindMe.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Unhandled exception while uploading video: {ex.Message}");
+                return new BackendClientResponseResult<string>
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        public async Task<BackendClientResponseResult<string>> GetLatestVideo()
+        {
+            try
+            {
+                var deviceId = GetDeviceId();
+
+                var fileName = "local_copy.mp4";
+                var filePath = Path.Combine(FileSystem.CacheDirectory, fileName);
+
+                // Don't take up too much space on mobile
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
+
+                _logger.LogInformation($"Getting latest video for device {deviceId}");
+                var uploadUrl = $"{SystemConstants.BACKEND_URL}/video/latest?deviceId={deviceId}";
+
+                var request = new HttpRequestMessage(HttpMethod.Get, uploadUrl);
+
+                var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorText = await response.Content.ReadAsStringAsync();
+                    return new BackendClientResponseResult<string>
+                    {
+                        Success = false,
+                        Message = errorText,
+                        Data = null
+                    };
+                }
+
+                using (var stream = await response.Content.ReadAsStreamAsync())
+                using (var fileStream = File.Create(filePath))
+                {
+                    await stream.CopyToAsync(fileStream);
+                }
+
+                return new BackendClientResponseResult<string>
+                {
+                    Success = true,
+                    Message = "Video downloaded successfully.",
+                    Data = filePath // return local path to the video
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Unhandled exception while downloading video: {ex.Message}");
                 return new BackendClientResponseResult<string>
                 {
                     Success = false,

@@ -3,6 +3,7 @@ using CSCE_432_632_Project.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace CSCE_432_632_Project.Controllers
 {
@@ -83,6 +84,53 @@ namespace CSCE_432_632_Project.Controllers
                 return StatusCode(500, "Could not save the video file.");
             }
             return Ok(new { Message = "Video uploaded successfully", FilePath = filePath });
+        }
+
+        [HttpGet("latest")]
+        public async Task<IActionResult> GetLatestVideo([FromQuery] string deviceId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Mac == deviceId);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var room = await _context.UserRooms
+                .Include(x => x.Room)
+                .Where(x => x.UserId == user.Id)
+                .Select(x => x.Room)
+                .FirstOrDefaultAsync();
+
+            if (room == null)
+            {
+                return NotFound("Room not found.");
+            }
+
+            var now = DateTimeOffset.Now;
+
+            var video = await _context.Videos
+                .Where(x => x.RoomId == room.Id && x.ScheduledDate < now)
+                .OrderByDescending(x => x.ScheduledDate)
+                .FirstOrDefaultAsync();
+
+            if (video == null)
+            {
+                return NotFound("Video not found");
+            }
+
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedVideos", video.Name.ToString());
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                return NotFound("Video not found");
+            }
+
+            FileResult result = File(System.IO.File.OpenRead(filePath), "video/mp4");
+
+            // MP4 is an assumption!
+            var fileBytes = System.IO.File.ReadAllBytes(filePath);
+            return File(fileBytes, "video/mp4", result.FileDownloadName);
         }
     }
 }
