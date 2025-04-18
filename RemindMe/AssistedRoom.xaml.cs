@@ -12,7 +12,7 @@ public partial class AssistedRoom : ContentPage
 
     private async void WatchLatestVideo(object sender, EventArgs e)
     {
-        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+        var client = new BackendClient();
         var response = await client.GetLatestVideo().ConfigureAwait(false);
 
         if (response.Success)
@@ -35,7 +35,7 @@ public partial class AssistedRoom : ContentPage
             return;
         }
 
-        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+        var client = new BackendClient();
 
         var response = await client.SwapRole().ConfigureAwait(false);
         if (response.Success)

@@ -9,12 +9,9 @@ namespace RemindMe.Services
     public class BackendClient
     {
         private readonly HttpClient _httpClient;
-        private readonly ILogger _logger;
 
-        public BackendClient(ILogger<BackendClient> logger)
-        {
-            _logger = logger;
-   
+        public BackendClient()
+        {   
             _httpClient = new HttpClient()
             {
                 Timeout = TimeSpan.FromSeconds(60)
@@ -40,7 +37,7 @@ namespace RemindMe.Services
         {
             try
             {
-                _logger.LogInformation("Generating a new User ID");
+                Console.WriteLine("Generating a new User ID");
 
                 var deviceId = GetDeviceId();
 
@@ -57,7 +54,7 @@ namespace RemindMe.Services
             }
             catch (Exception e)
             {
-                _logger.LogError($"Unhandled exception while generating a User ID: {e.Message}");
+                Console.WriteLine($"Unhandled exception while generating a User ID: {e.Message}");
                 return new BackendClientResponseResult<Guid>()
                 {
                     Success = false,
@@ -67,11 +64,51 @@ namespace RemindMe.Services
             }
         }
 
+        public async Task<BackendClientResponseResult<UserInRoomState>> GetUserInRoomState()
+        {
+            try
+            {
+                var deviceId = GetDeviceId();
+
+                Console.WriteLine($"Checking if user {deviceId} is in a room");
+
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{SystemConstants.BACKEND_URL}/user/inRoom?deviceId={deviceId}");
+
+                var response = await _httpClient.SendAsync(request).ConfigureAwait(false);
+
+                var intResponse = int.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+
+                var enumResponse = (intResponse switch
+                {
+                    0 => UserInRoomState.NO_USER,
+                    1 => UserInRoomState.NO_ROOM,
+                    2 => UserInRoomState.CAREGIVER,
+                    _ => UserInRoomState.ASSISTED
+                });
+
+                return new BackendClientResponseResult<UserInRoomState>()
+                {
+                    Success = response.IsSuccessStatusCode,
+                    Data = enumResponse
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Unhandled exception while checking if user is in a room: {e.Message}");
+                return new BackendClientResponseResult<UserInRoomState>()
+                {
+                    Success = false,
+                    Message = e.Message,
+                    Data = UserInRoomState.NO_ROOM
+                };
+            }
+        }
+
         public async Task<BackendClientResponseResult<Guid>> CreateRoom(Guid userId, string roomName, string password)
         {
             try
             {
-                _logger.LogInformation($"Creating room {roomName}");
+                Console.WriteLine($"Creating room {roomName}");
 
                 var deviceId = GetDeviceId();
 
@@ -90,7 +127,7 @@ namespace RemindMe.Services
             }
             catch (Exception e)
             {
-                _logger.LogError($"Unhandled exception while creating a room: {e.Message}");
+                Console.WriteLine($"Unhandled exception while creating a room: {e.Message}");
                 return new BackendClientResponseResult<Guid>()
                 {
                     Success = false,
@@ -104,7 +141,7 @@ namespace RemindMe.Services
         {
             try
             {
-                _logger.LogInformation($"Creating room {roomName}");
+                Console.WriteLine($"Creating room {roomName}");
 
                 var deviceId = GetDeviceId();
 
@@ -125,7 +162,7 @@ namespace RemindMe.Services
             }
             catch (Exception e)
             {
-                _logger.LogError($"Unhandled exception while creating a room: {e.Message}");
+                Console.WriteLine($"Unhandled exception while creating a room: {e.Message}");
                 return new BackendClientResponseResult<string>()
                 {
                     Success = false,
@@ -141,7 +178,7 @@ namespace RemindMe.Services
             {
                 var deviceId = GetDeviceId();
 
-                _logger.LogInformation($"Swapping role for user {deviceId}");
+                Console.WriteLine($"Swapping role for user {deviceId}");
 
                 var request = new HttpRequestMessage(HttpMethod.Put, $"{SystemConstants.BACKEND_URL}/room/swapRole?deviceId={deviceId}");
 
@@ -155,7 +192,7 @@ namespace RemindMe.Services
             }
             catch (Exception e)
             {
-                _logger.LogError($"Unhandled exception while swapping user role: {e.Message}");
+                Console.WriteLine($"Unhandled exception while swapping user role: {e.Message}");
                 return new BackendClientResponseResult<string>()
                 {
                     Success = false,
@@ -169,7 +206,7 @@ namespace RemindMe.Services
         {
             try
             {
-                _logger.LogInformation($"Uploading video: {file?.FileName}");
+                Console.WriteLine($"Uploading video: {file?.FileName}");
 
                 var deviceId = GetDeviceId(); 
                 var uploadUrl = $"{SystemConstants.BACKEND_URL}/video/upload";
@@ -201,7 +238,7 @@ namespace RemindMe.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unhandled exception while uploading video: {ex.Message}");
+                Console.WriteLine($"Unhandled exception while uploading video: {ex.Message}");
                 return new BackendClientResponseResult<string>
                 {
                     Success = false,
@@ -224,7 +261,7 @@ namespace RemindMe.Services
                 if (File.Exists(filePath))
                     File.Delete(filePath);
 
-                _logger.LogInformation($"Getting latest video for device {deviceId}");
+                Console.WriteLine($"Getting latest video for device {deviceId}");
                 var uploadUrl = $"{SystemConstants.BACKEND_URL}/video/latest?deviceId={deviceId}";
 
                 var request = new HttpRequestMessage(HttpMethod.Get, uploadUrl);
@@ -257,7 +294,7 @@ namespace RemindMe.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Unhandled exception while downloading video: {ex.Message}");
+                Console.WriteLine($"Unhandled exception while downloading video: {ex.Message}");
                 return new BackendClientResponseResult<string>
                 {
                     Success = false,

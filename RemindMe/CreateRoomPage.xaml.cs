@@ -26,7 +26,7 @@ public partial class CreateRoomPage : ContentPage
 
     private async void CreateButtonClicked(object sender, EventArgs e)
     {
-        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+        var client = new BackendClient();
         var response = await client.CreateRoom(Id, RoomNameEntry.Text, PasswordEntry.Text).ConfigureAwait(false);
 
         if (response.Success)

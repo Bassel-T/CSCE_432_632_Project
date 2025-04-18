@@ -1,7 +1,9 @@
 ﻿using CSCE_432_632_Project.Migrations;
 using CSCE_432_632_Project.Models;
+using CSCE_432_632_Project.Models.ResponseModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSCE_432_632_Project.Controllers
 {
@@ -47,6 +49,33 @@ namespace CSCE_432_632_Project.Controllers
             }
 
             return Ok(added.Entity.Id);
+        }
+
+        [HttpGet("inRoom")]
+        public async Task<IActionResult> IsUserInRoom([FromQuery] string deviceId)
+        {
+            var existing = await _context.Users.FirstOrDefaultAsync(x => x.Mac == deviceId);
+
+            if (existing == null)
+            {
+                return Ok(UserInRoomState.NO_USER);
+            }
+
+            var userRoom = await _context.UserRooms.FirstOrDefaultAsync(x => x.UserId == existing.Id);
+
+            if (userRoom == null)
+            {
+                return Ok(UserInRoomState.NO_ROOM);
+            }
+
+            if (userRoom.Role == Role.CAREGIVER)
+            {
+                return Ok(UserInRoomState.CAREGIVER);
+            }
+            else
+            {
+                return Ok(UserInRoomState.ASSISTED);
+            }
         }
     }
 }

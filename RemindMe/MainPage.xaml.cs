@@ -6,27 +6,35 @@ namespace RemindMe
     public partial class MainPage : ContentPage
     {
         Guid? UserID { get; set; }
+        BackendClient client;
 
         public MainPage()
         {
             InitializeComponent();
 
+            client = new BackendClient();
+
             // TODO : Cleanup
-            if (!Directory.Exists(SystemConstants.USER_PATH))
-            {
-                var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
-                var result = client.GenerateUserId().Result;
 
-                if (result.Success)
+            var userState = client.GetUserInRoomState().Result;
+
+            if (userState.Data == Models.ResponseModels.UserInRoomState.NO_USER)
+            {
+                var response = client.GenerateUserId().Result;
+
+                if (!response.Success)
                 {
-                    File.WriteAllText(SystemConstants.USER_PATH, result.Data.ToString());
-
-                    UserID = result.Data;
+                    DisplayAlert("Error", "Could not generate user. Check your internet connection and restart the app.", "OK").RunSynchronously();
+                    App.Current.Quit();
                 }
-            } 
-            else
+            }
+            else if (userState.Data == Models.ResponseModels.UserInRoomState.CAREGIVER)
             {
-                UserID = Guid.Parse(File.ReadAllText(SystemConstants.USER_PATH));
+                Shell.Current.GoToAsync($"//{nameof(ScheduleVideoPage)}");
+            }
+            else if (userState.Data == Models.ResponseModels.UserInRoomState.ASSISTED)
+            {
+                Shell.Current.GoToAsync($"//{nameof(AssistedRoom)}");
             }
         }
 

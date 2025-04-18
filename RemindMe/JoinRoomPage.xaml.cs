@@ -26,7 +26,7 @@ public partial class JoinRoomPage : ContentPage
 
     private async void JoinButtonClicked(object sender, EventArgs e)
     {
-        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+        var client = new BackendClient();
         var response = await client.JoinRoom(Id, RoomNameEntry.Text, PasswordEntry.Text).ConfigureAwait(false);
 
         if (response.Success)

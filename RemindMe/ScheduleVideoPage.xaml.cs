@@ -29,7 +29,7 @@ public partial class ScheduleVideoPage : ContentPage
             return;
         }
 
-        var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+        var client = new BackendClient();
 
         var response = await client.SwapRole().ConfigureAwait(false);
         if (response.Success)
@@ -49,7 +49,7 @@ public partial class ScheduleVideoPage : ContentPage
         var result = await DisplayAlert("Publish Video", "Are you sure you want to schedule this video?", "Yes", "No");
         if (result)
         {
-            var client = new BackendClient(new Logger<BackendClient>(new LoggerFactory()));
+            var client = new BackendClient();
             var response = await client.PublishVideo(submittingVideo, DatePicker.Date, TimePicker.Time);
 
             if (response.Success)
