@@ -16,18 +16,14 @@ This application runs the MAUI frontend with an ASP.NET Core backend. Thus, the 
 
 ## Development
 
-To develop for this application, open two instances of Visual Studio 2022: One for the frontend and one for the backend.
+To develop this application, open two instances of Visual Studio 2022: One for the frontend and one for the backend. Make sure the backend is running before running the frontend, or the mobile app could crash.
 
 ## Branching
 
 To maintain organization, create a new branch for each feature or bug fix in a folder under your name. Create a PR going into the `main` branch when ready for review. When the merge has been completed, delete the source branch.
 
-## Deployment
-
-TODO
-
 ## Contributors
 
 - Mitri Bassel Toubbeh
-- Julia Arukakkal
-- Satyajit Mondal
+- ~Julia Arukakkal~
+- ~Satyajit Mondal~
