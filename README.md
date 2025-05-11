@@ -2,9 +2,7 @@
 
 ## Overview
 
-This application was created for Texas A&M University, CSCE 432-500 and CSCE 632-600 in Spring 2025. The application aims to create an environment through which people can remind their loved ones—targeted at people with
-dementia—to perform their daily tasks. We allow users to enter groups as a sender or a receiver, then allow senders to record and send videos to a receiver. The goal is to make the interface as simple as possible so the
-application remains easy to use by everyone. This assists those with dementia, who often have memory troubles and difficulty learning new technologies.
+This application was created for Texas A&M University, CSCE 432-500 and CSCE 632-600 in Spring 2025. The application aims to create an environment through which people can remind their friends or family to perform their daily tasks. We allow users to enter groups as a sender or a receiver, then allow senders to record and send videos to a receiver. The goal is to make the interface as simple as possible so the application remains easy to use by everyone. This assists those with dementia, who often have memory troubles and difficulty learning new technologies.
 
 ## Requirements
 
@@ -18,12 +16,6 @@ This application runs the MAUI frontend with an ASP.NET Core backend. Thus, the 
 
 To develop this application, open two instances of Visual Studio 2022: One for the frontend and one for the backend. Make sure the backend is running before running the frontend, or the mobile app could crash.
 
-## Branching
-
-To maintain organization, create a new branch for each feature or bug fix in a folder under your name. Create a PR going into the `main` branch when ready for review. When the merge has been completed, delete the source branch.
-
 ## Contributors
 
 - Mitri Bassel Toubbeh
-- ~Julia Arukakkal~
-- ~Satyajit Mondal~
